@@ -40,6 +40,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./dist/stroke-to-vibration-converter.exe
-          asset_name: stroke-to-vibration-converter-${{env.INSTALLER_VERSION}}.exe
+          asset_name: stroke-to-vibration-converter-${{env.APP_VERSION}}.exe
           tag: ${{ github.ref }}
           overwrite: true
