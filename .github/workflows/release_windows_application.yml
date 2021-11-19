@@ -1,0 +1,45 @@
+name: Release Application
+
+on:
+  workflow_dispatch:
+
+jobs:
+  miniconda:
+    name: Miniconda ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+        matrix:
+            os: ["windows-latest"]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: funscript-converter
+          environment-file: environment_windows.yaml
+          python-version: 3.9
+          auto-activate-base: false
+      - name: Collect Conda Info
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda env export
+      - name: Get Version
+        shell: bash -l {0}
+        run: |
+          echo "APP_VERSION=$(grep '^VERSION' ./stroke-to-vibration-converter.py | cut -d '=' -f 2 | sed 's/\"//g' | sed 's/ //g')" >> $GITHUB_ENV
+      - name: Print Version
+        run: echo $APP_VERSION
+      - name: Build Application
+        shell: bash -l {0}
+        run: |
+          pyinstaller --noupx --onefile --noconsole stroke-to-vibration-converter.py
+      - name: Upload App
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/stroke-to-vibration-converter.exe
+          asset_name: stroke-to-vibration-converter-${{env.INSTALLER_VERSION}}.exe
+          tag: ${{ github.ref }}
+          overwrite: true
