@@ -6,7 +6,7 @@ from PyQt5 import QtWidgets
 
 VERSION = "0.0.1"
 
-def convertStrokesToVibration():
+def convertStrokesToVibration() -> str:
     file_name = QtWidgets.QFileDialog.getOpenFileName(
             None,
             caption="Select Stroking Funscript"
@@ -52,7 +52,7 @@ def convertStrokesToVibration():
     return "OK: Save Vibration Funscript to " + str(out_file)
 
 
-def show_message(message :str) -> None:
+def show_message(message: str) -> None:
     msg = QtWidgets.QMessageBox()
     msg.setIcon(QtWidgets.QMessageBox.Information)
     msg.setText(message+' ')
