@@ -18,4 +18,4 @@ build.bat
 
 This create the Windows executable in `./dist`.
 
-Finally you can remove the build environment with `conda env remove -n funscript-converter`
+Finally you can remove the build environment with `conda env remove -n funscript-converter`.
